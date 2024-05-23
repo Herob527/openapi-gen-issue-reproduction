@@ -2,19 +2,7 @@ import "./style.css";
 import typescriptLogo from "./typescript.svg";
 import viteLogo from "/vite.svg";
 import { setupCounter } from "./counter.ts";
-import { DefaultApi } from "./types/generated/api.ts";
-
-const api = new DefaultApi(
-  {
-    isJsonMime: (mime: string) => mime === "application/json",
-  },
-  "http://localhost:8000",
-);
-
-const getData = async () => {
-  const { data } = await api.indexPost();
-  console.log(data);
-};
+import { getData } from "./action.ts";
 
 getData();
 
