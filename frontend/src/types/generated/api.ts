@@ -82,6 +82,107 @@ export interface FileModel {
 }
 
 /**
+ * AudioApi - axios parameter creator
+ * @export
+ */
+export const AudioApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Index
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        indexAudiosPost: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/audios/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * AudioApi - functional programming interface
+ * @export
+ */
+export const AudioApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = AudioApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary Index
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async indexAudiosPost(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DirectoryModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.indexAudiosPost(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AudioApi.indexAudiosPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * AudioApi - factory interface
+ * @export
+ */
+export const AudioApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = AudioApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary Index
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        indexAudiosPost(options?: any): AxiosPromise<DirectoryModel> {
+            return localVarFp.indexAudiosPost(options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * AudioApi - object-oriented interface
+ * @export
+ * @class AudioApi
+ * @extends {BaseAPI}
+ */
+export class AudioApi extends BaseAPI {
+    /**
+     * 
+     * @summary Index
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AudioApi
+     */
+    public indexAudiosPost(options?: RawAxiosRequestConfig) {
+        return AudioApiFp(this.configuration).indexAudiosPost(options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
  * DefaultApi - axios parameter creator
  * @export
  */
@@ -133,7 +234,7 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async indexPost(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DirectoryModel>> {
+        async indexPost(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.indexPost(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['DefaultApi.indexPost']?.[localVarOperationServerIndex]?.url;
@@ -155,7 +256,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        indexPost(options?: any): AxiosPromise<DirectoryModel> {
+        indexPost(options?: any): AxiosPromise<any> {
             return localVarFp.indexPost(options).then((request) => request(axios, basePath));
         },
     };
