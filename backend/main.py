@@ -1,20 +1,7 @@
-from typing import List, Union
-from pydantic import BaseModel
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from stuff.my_router import my_router
 
-# Recursive schema
-class FileModel(BaseModel):
-    file_name: str
-
-
-class DirectoryModel(BaseModel):
-    dir_name: str
-    files: List[Union["FileModel", "DirectoryModel"]] = []
-
-
-DirectoryModel.model_rebuild()
 
 origins = "https?://localhost:.+"
 
@@ -27,6 +14,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.post("/", response_model=DirectoryModel)
+app.include_router(my_router)
+
+
+@app.post(
+    "/",
+)
 def index():
-    return DirectoryModel(dir_name="test", files=[FileModel(file_name="test.txt"), DirectoryModel(dir_name="nested")])
+    return "test"
